@@ -12,6 +12,8 @@ void points_cb(const sensor_msgs::PointCloud2ConstPtr& msg){
     rubis::start_task_profiling_for_lidar_republisher(msg->header.stamp.sec, msg->header.stamp.nsec);
 
     sensor_msgs::PointCloud2 msg_with_intensity = *msg;
+
+    rubis::mid_task_profiling();
     
     msg_with_intensity.fields.at(3).datatype = 7;
     msg_with_intensity.header.stamp = ros::Time::now();

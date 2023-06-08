@@ -11,6 +11,7 @@ namespace rubis{
   struct timespec task_start_time_;
   struct timespec task_end_time_;
   struct timespec topic_pub_time_;
+  struct timespec task_mid_time_;
 
   void init_task_profiling(std::string task_reponse_time_filename){
     if(task_reponse_time_filename.at(0) == '~'){
@@ -27,7 +28,7 @@ namespace rubis{
     }
 
     chmod(task_reponse_time_filename.c_str(), strtol("0777", 0, 8));
-    fprintf(task_response_time_fp_, "iter,PID,start,end,instance,obj_instance,topic_pub_time\n");
+    fprintf(task_response_time_fp_, "iter,PID,start,end,instance,obj_instance,topic_pub_time,mid\n");
   }
 
   void start_task_profiling(){
@@ -40,9 +41,13 @@ namespace rubis{
     topic_pub_time_.tv_nsec = tp_time_nsec;
   }
 
+  void mid_task_profiling(){
+    clock_gettime(CLOCK_REALTIME, &task_mid_time_);
+  }
+
   void stop_task_profiling(unsigned long instance, int state){
     clock_gettime(CLOCK_REALTIME, &task_end_time_);
-    fprintf(task_response_time_fp_, "%d,%d,%lld.%.9ld,%lld.%.9ld,%lu,%lu,%lld.%.9ld\n",iter_++, getpid(), (long long)task_start_time_.tv_sec, task_start_time_.tv_nsec, (long long)task_end_time_.tv_sec, task_end_time_.tv_nsec, instance, obj_instance_, (long long)topic_pub_time_.tv_sec, topic_pub_time_.tv_nsec);
+    fprintf(task_response_time_fp_, "%d,%d,%lld.%.9ld,%lld.%.9ld,%lu,%lu,%lld.%.9ld\n",iter_++, getpid(), (long long)task_start_time_.tv_sec, task_start_time_.tv_nsec, (long long)task_end_time_.tv_sec, task_end_time_.tv_nsec, instance, obj_instance_, (long long)topic_pub_time_.tv_sec, topic_pub_time_.tv_nsec, (long long)task_mid_time_.tv_sec, task_mid_time_.tv_nsec);
     fflush(task_response_time_fp_);
   }
 
