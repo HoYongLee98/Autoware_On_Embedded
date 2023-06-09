@@ -47,7 +47,7 @@ namespace rubis{
 
   void stop_task_profiling(unsigned long instance, int state){
     clock_gettime(CLOCK_REALTIME, &task_end_time_);
-    fprintf(task_response_time_fp_, "%d,%d,%lld.%.9ld,%lld.%.9ld,%lu,%lu,%lld.%.9ld\n",iter_++, getpid(), (long long)task_start_time_.tv_sec, task_start_time_.tv_nsec, (long long)task_end_time_.tv_sec, task_end_time_.tv_nsec, instance, obj_instance_, (long long)topic_pub_time_.tv_sec, topic_pub_time_.tv_nsec, (long long)task_mid_time_.tv_sec, task_mid_time_.tv_nsec);
+    fprintf(task_response_time_fp_, "%d,%d,%lld.%.9ld,%lld.%.9ld,%lu,%lu,%lld.%.9ld,%lld.%.9ld\n",iter_++, getpid(), (long long)task_start_time_.tv_sec, task_start_time_.tv_nsec, (long long)task_end_time_.tv_sec, task_end_time_.tv_nsec, instance, obj_instance_, (long long)topic_pub_time_.tv_sec, topic_pub_time_.tv_nsec, (long long)task_mid_time_.tv_sec, task_mid_time_.tv_nsec);
     fflush(task_response_time_fp_);
   }
 
